@@ -341,8 +341,8 @@ public class LinearProgram {
     }
 
     private Vector transformConstraint(@NotNull Vector gradient, @NotNull Fraction value) {
-        Vector transformed = new Vector(transform.getWidth());
-        Vector eliminated = new Vector(table.getWidth());
+        Vector transformed = Vector.zero(transform.getWidth());
+        Vector eliminated = Vector.zero(table.getWidth());
 
         transformed.set(transform.getWidth() - 1, value);
 

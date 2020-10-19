@@ -232,7 +232,7 @@ public class Matrix {
             throw new IndexOutOfBoundsException("Column index must fall within range [0, width).");
 
         // Columns lie continuously in memory, so stride is 1.
-        return Vector.viewOf(height, 1, height * index, array);
+        return Vector.view(height, 1, height * index, array);
     }
 
     /**
@@ -276,7 +276,7 @@ public class Matrix {
             throw new IndexOutOfBoundsException("Row index must fall within range [0, height).");
 
         // Rows, unlike columns, need a stride.
-        return Vector.viewOf(width, height, index, array);
+        return Vector.view(width, height, index, array);
     }
 
     /**
@@ -313,7 +313,7 @@ public class Matrix {
      * @return vector view of the diagonal
      */
     public Vector getDiagonal() {
-        return Vector.viewOf(width, height + 1, 0, array);
+        return Vector.view(width, height + 1, 0, array);
     }
 
     /**

@@ -26,33 +26,7 @@ public class Vector {
     }
 
     /**
-     * Constructs a zero vector of given size.
-     *
-     * @param size number of components
-     */
-    public Vector(int size) {
-        this(new Fraction[size]);
-        Arrays.fill(array, Fraction.ZERO);
-    }
-
-    /**
-     * Constructs a vector using a generator to create its components.
-     *
-     * @param size      number of components
-     * @param generator the generator lambda
-     */
-    public Vector(int size, @NotNull Generator generator) {
-        this.size = size;
-        stride = 1;
-        offset = 0;
-
-        array = new Fraction[size];
-        for(int i = 0; i < size; i++)
-            array[i] = generator.run(i);
-    }
-
-    /**
-     * Constructs a vector wrapper for the given array.
+     * Constructs vector wrapper for an array.
      *
      * @param array one-dimensional array
      */
@@ -62,6 +36,28 @@ public class Vector {
         offset = 0;
 
         this.array = array;
+    }
+
+    /**
+     * Constructs vector from an array of longs.
+     *
+     * @param array one-dimensional array
+     */
+    public Vector(@NotNull long... array) {
+        this(array.length, i -> new Fraction(array[i]));
+    }
+
+    /**
+     * Constructs a vector using a generator to create its components.
+     *
+     * @param size      number of components
+     * @param generator the generator lambda
+     */
+    public Vector(int size, @NotNull Generator generator) {
+        this(new Fraction[size]);
+
+        for(int i = 0; i < size; i++)
+            array[i] = generator.run(i);
     }
 
     /**
@@ -119,8 +115,20 @@ public class Vector {
      *
      * @return a vector with non-continuous memory alignment
      */
-    public static Vector viewOf(int size, int stride, int offset, @NotNull Fraction[] array) {
+    public static Vector view(int size, int stride, int offset, @NotNull Fraction[] array) {
         return new Vector(size, stride, offset, array);
+    }
+
+    /**
+     * Constructs a zero vector of given size.
+     *
+     * @param size number of components
+     */
+    public static Vector zero(int size) {
+        Fraction[] array = new Fraction[size];
+        Arrays.fill(array, Fraction.ZERO);
+
+        return new Vector(array);
     }
 
     /**
@@ -159,7 +167,7 @@ public class Vector {
      * @return a vector with only a single component having a value
      */
     public static Vector basis(int size, int index, @NotNull Fraction value) {
-        Vector vector = new Vector(size);
+        Vector vector = Vector.zero(size);
         vector.set(index, value);
         return vector;
     }

@@ -90,9 +90,9 @@ public class RandomReverser {
         // Initialize basis and other vectors:
 
         Matrix basis = new Matrix(numCalls + 1, numCalls);
-        Vector offset = new Vector(numCalls);
-        Vector min = new Vector(numCalls);
-        Vector max = new Vector(numCalls);
+        Vector offset = Vector.zero(numCalls);
+        Vector min = Vector.zero(numCalls);
+        Vector max = Vector.zero(numCalls);
 
         Fraction multiplier = new Fraction(lcg.getMultiplier());
         Fraction modulus = new Fraction(lcg.getModulus());

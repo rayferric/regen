@@ -30,7 +30,7 @@ public class TreeNode {
         this.program = program;
 
         // The basis is an inverse, which means it must be square, so it doesn't matter which dimension we use:
-        vertex = new Vector(basis.getWidth());
+        vertex = Vector.zero(basis.getWidth());
     }
 
     /**

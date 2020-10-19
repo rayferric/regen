@@ -28,7 +28,7 @@ public class LLL {
         this.basis = basis;
         gso = new Matrix(width, height);
         mu = new Matrix(width, width);
-        norms = new Vector(width);
+        norms = Vector.zero(width);
     }
 
     private Matrix reduce(@NotNull Fraction delta) {
