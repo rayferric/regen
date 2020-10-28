@@ -25,7 +25,7 @@ Works by finding integer solutions to a system of linear inequalities on consecu
 ```groovy
 repositories {
     maven {
-        url "https://jitpack.io"
+        url 'https://jitpack.io'
     }
 }
 
