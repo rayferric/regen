@@ -1,12 +1,14 @@
-package com.rayferric.dungeonseed;
+package com.rayferric.regen.reverser.java;
 
 import com.rayferric.regen.reverser.LCG;
-import com.rayferric.regen.reverser.java.JavaRandom;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
 
+/**
+ * A collection of useful Java RNG reversal functions.
+ */
 public class JavaRandomHelper {
     public static final LCG REVERSE_LCG = LCG.JAVA.ofStep(-1);
 
