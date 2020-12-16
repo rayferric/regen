@@ -64,26 +64,37 @@ public class TreeNode {
         // The basis is a square:
         int size = basis.getWidth();
 
-        // We have reached the end of this branch:
-        if(depth == size)
-            return Arrays.spliterator(new Vector[] { vertex });
-
         Vector gradient = basis.getRow(depth);
 
-        BigInteger min = program.minimize(gradient).dot(gradient).ceil().getNumerator();
-        BigInteger max = program.maximize(gradient).dot(gradient).floor().getNumerator();
+        Fraction min = program.minimize(gradient).dot(gradient).ceil();
+        Fraction max = program.maximize(gradient).dot(gradient).floor();
 
-        Queue<TreeNode> children = new LinkedList<>();
+        int width = max.sub(min).getNumerator().intValue() + 1;
 
-        for(BigInteger i = min; i.compareTo(max) <= 0; i = i.add(BigInteger.ONE)) {
-            Fraction value = new Fraction(i);
+        if(depth + 1 == size) {
+            // We have reached the end of this branch and found {width} solutions.
 
-            LinearProgram newProgram = program.withEquality(gradient, value);
-            Vector newVertex = vertex.add(Vector.basis(size, depth, value));
+            Vector[] solutions = new Vector[width];
 
-            children.add(new TreeNode(depth + 1, basis, newProgram, newVertex));
+            for(int i = 0; i < width; i++) {
+                Fraction value = min.add(new Fraction(i));
+                solutions[i] = vertex.add(Vector.basis(size, depth, value));
+            }
+
+            return Arrays.spliterator(solutions);
+        } else {
+            Queue<TreeNode> children = new LinkedList<>();
+
+            for(int i = 0; i < width; i++) {
+                Fraction value = min.add(new Fraction(i));
+
+                LinearProgram newProgram = program.withEquality(gradient, value);
+                Vector newVertex = vertex.add(Vector.basis(size, depth, value));
+
+                children.add(new TreeNode(depth + 1, basis, newProgram, newVertex));
+            }
+
+            return new TreeSpliterator(children);
         }
-
-        return new TreeSpliterator(children);
     }
 }
